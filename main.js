@@ -1,24 +1,59 @@
 'use strict'
 
-const goods = [
-    { id: 1, title: 'Notebook', price: 1000, img: 'img/goods-img.jpg' },
-    { id: 2, title: 'Mouse', price: 100, img: 'img/goods-img.jpg' },
-    { id: 3, title: 'Keyboard', price: 250, img: 'img/goods-img.jpg' },
-    { id: 4, title: 'Gamepad', price: 150, img: 'img/goods-img.jpg' },
-];
+class GoodsList {
+    constructor(container = '.goods-list') {
+        this.container = container;
+        this.goods = [];
+        this._fetchGoods();
+        this.render();
+        this.getSum();
+    }
+    _fetchGoods() {
+        this.goods = [
+            { id: 1, title: 'Notebook', price: 1350, img: 'img/goods-img.jpg' },
+            { id: 2, title: 'Mouse', price: 100, img: 'img/goods-img.jpg' },
+            { id: 3, title: 'Keyboard', price: 250, img: 'img/goods-img.jpg' },
+            { id: 4, title: 'Gamepad', price: 150, img: 'img/goods-img.jpg' },
+        ]
+    }
+    render() {
+        const block = document.querySelector(this.container);
+        for (let product of this.goods) {
+            const item = new GoodsItem(product);
+            block.insertAdjacentHTML('beforeend', item.render());
+        }
+    }
+    getSum() {
+        let sum = 0;
+        for (let product of this.goods) {
+            sum += product.price;
+
+        }
+        console.log(sum);
+        return sum
 
 
-const renderGoodsItem = (img, title, price) => {
-    return `<div class="goods-item" data-id="${this.id}">
-    <img class="img-wrp" src="${img}" alt="${title + 'photo'}"/>          
-        <h3 >${title}</h3>
-        <p>${price + ' rub'}</p>
-        <button class="cart-button">Купить</button>
-    </div>`
-};
-
-const renderGoodsList = (list) => {
-    document.querySelector('.goods-list').innerHTML = list.map((item) => renderGoodsItem(item.img, item.title, item.price)).join('');
+    }
 }
 
-renderGoodsList(goods);
+class GoodsItem {
+    constructor(product, img = 'img/goods-img.jpg') {
+        this.img = img;
+        // this.id= product.id;
+        this.title = product.title;
+        this.price = product.price;
+        this.render();
+    }
+    render() {
+        return `<div class="goods-item" ">
+    <img class="img-wrp" src="${this.img}" alt="{title + 'photo'}"/>          
+        <h3 >${this.title}</h3>
+        <p>${this.price + ' rub'}</p>
+        <button class="cart-button">Купить</button>
+    </div>`
+    }
+}
+
+
+
+let list = new GoodsList();
